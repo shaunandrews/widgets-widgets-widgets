@@ -1,0 +1,137 @@
+ol.w3-tabs {
+	width: 20%;
+	float: left;
+	list-style: none;
+	margin: 0;
+}
+	ol.w3-tabs li {
+		padding: 10px 15px;
+		margin-bottom: 0;
+		cursor: pointer;
+		background: #ccc;
+	}
+	ol.w3-tabs li:hover {
+		background: #ddd;
+	}
+	ol.w3-tabs li.active {
+		background: #fff;
+	}
+
+ol.w3-sidebars {
+	list-style: none;
+	margin: 0;
+	float: left;
+	width: 50%;
+	padding: 10px 0;
+	background: #fff;
+}
+
+li.w3-sidebar {
+	background: #fff;
+	display: none;
+}
+li.w3-sidebar.active {
+	display: block;
+}
+	li.w3-sidebar:nth-child(3) {
+		margin-right: 0;
+	}
+	li.w3-sidebar:nth-child(4) {
+		clear: both;
+	}
+
+.w3-sidebar-header {
+	padding: 10px;
+	border-bottom: 1px solid #eee;
+}
+	.w3-sidebar-header h2 {
+		font-size: 16px;
+		margin: 0 0 10px 0;
+		padding: 0;
+		line-height: 1;
+		color: #444;
+	}
+	.w3-sidebar-header p {
+		font-size: 13px;
+		margin: 0;
+		line-height: 1.4;
+		color: #666;
+	}
+
+.w3-sidebar-footer {
+	padding: 10px;
+	text-align: center;
+}
+	.w3-sidebar-footer .button {}
+
+.w3-available-widgets {
+	width: 28%;
+	float: right;
+}
+
+ol.w3-recent-widgets {
+	margin: 0;
+	list-style: none;
+}
+
+ol.w3-widgets {
+	list-style: none;
+	margin: 0;
+}
+li.w3-widget {
+	margin: 0;
+	border-bottom: 1px solid #eee;
+}
+	li.w3-widget .widget {
+		margin: 0;
+	}
+	li.w3-widget .w3-widget-header {
+		padding: 15px 20px;
+		position: relative;
+		cursor: move;
+		-webkit-transition: all 0.2s ease-in-out;
+		-moz-transition: all 0.2s ease-in-out;
+		transition: all 0.2s ease-in-out;
+	}
+		li.w3-widget .w3-widget-header img {
+			position: absolute;
+			top: 12px;
+			left: 12px;
+			height: 20px;
+			width: 20px;
+		}
+		li.w3-widget .w3-widget-header h3 {
+			font-size: 13px;
+			margin: 0 0 3px 0;
+			line-height: 1;
+		}
+		li.w3-widget .w3-widget-header p {
+			font-size: 12px;
+			margin: 0;
+			line-height: 1.3;
+			color: #999;
+		}
+		li.w3-widget .w3-widget-header .w3-widget-edit {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			font-size: 13px;
+			padding: 10px;
+			font-size: 13px;
+			cursor: pointer;
+		}
+		li.w3-widget.editing .w3-widget-header {
+			background: #222;
+			color: #fff;
+		}
+		li.w3-widget.editing .w3-widget-header .w3-widget-edit {
+			background: rgba(0,0,0,0.5);
+			border-left: 1px solid rgba(0,0,0,0.04);
+		}
+	li.w3-widget .w3-widget-settings {
+		padding: 10px;
+		display: none;
+		background: rgba(0,0,0,0.02);
+		box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+	}
