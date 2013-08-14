@@ -1,3 +1,10 @@
+/* Out with the old... */
+.widget-liquid-left,
+.widget-liquid-right {
+	display: none;
+}
+
+/* ...in with the new! */
 ol.w3-tabs {
 	width: 20%;
 	float: left;
@@ -8,13 +15,25 @@ ol.w3-tabs {
 		padding: 10px 15px;
 		margin-bottom: 0;
 		cursor: pointer;
-		background: #ccc;
+		background: #ddd;
+		color: #444;
 	}
 	ol.w3-tabs li:hover {
 		background: #ddd;
+		color: #1074a2;
 	}
 	ol.w3-tabs li.active {
 		background: #fff;
+		color: #1074a2;
+	}
+	ol.w3-tabs .w3-widget-count {
+		float: right;
+		margin: -3px -8px -3px 0;
+		padding: 3px 8px;
+		background: rgba(0,0,0,0.05);
+		border-radius: 100px;
+		font-size: 11px;
+		box-shadow: 0 1px 0 rgba(255,255,255,0.3);
 	}
 
 ol.w3-sidebars {
@@ -22,12 +41,14 @@ ol.w3-sidebars {
 	margin: 0;
 	float: left;
 	width: 50%;
-	padding: 10px 0;
+	padding: 0;
 	background: #fff;
+	min-height: 80vh;
 }
 
 li.w3-sidebar {
 	background: #fff;
+	margin: 0;
 	display: none;
 }
 li.w3-sidebar.active {
@@ -41,12 +62,12 @@ li.w3-sidebar.active {
 	}
 
 .w3-sidebar-header {
-	padding: 10px;
+	padding: 20px;
 	border-bottom: 1px solid #eee;
 }
 	.w3-sidebar-header h2 {
-		font-size: 16px;
-		margin: 0 0 10px 0;
+		font-size: 20px;
+		margin: 0 0 8px 0;
 		padding: 0;
 		line-height: 1;
 		color: #444;
@@ -64,10 +85,24 @@ li.w3-sidebar.active {
 }
 	.w3-sidebar-footer .button {}
 
-.w3-available-widgets {
+ul.w3-available-widgets {
 	width: 28%;
 	float: right;
+	list-style: none;
+	margin: 0;
+	background: rgba(255,255,255,0.4);
+	height: 80vh;
+	overflow-y: auto;
+	position: relative;
 }
+	ul.w3-available-widgets .w3-section-header {
+		padding: 15px 20px;
+		background: rgba(255,255,255,0.4);
+		font-size: 18px;
+	}
+	ul.w3-available-widgets .w3-widget-edit {
+		display: none;
+	}
 
 ol.w3-recent-widgets {
 	margin: 0;
@@ -82,6 +117,9 @@ li.w3-widget {
 	margin: 0;
 	border-bottom: 1px solid #eee;
 }
+li.w3-widget:last-child {
+	border-bottom: none;
+}
 	li.w3-widget .widget {
 		margin: 0;
 	}
@@ -89,9 +127,12 @@ li.w3-widget {
 		padding: 15px 20px;
 		position: relative;
 		cursor: move;
-		-webkit-transition: all 0.2s ease-in-out;
-		-moz-transition: all 0.2s ease-in-out;
-		transition: all 0.2s ease-in-out;
+		-webkit-transition: all 0.1s ease-in-out;
+		-moz-transition: all 0.1s ease-in-out;
+		transition: all 0.1s ease-in-out;
+	}
+	li.w3-widget .w3-widget-header:hover {
+		background: rgba(0,0,0,0.05);
 	}
 		li.w3-widget .w3-widget-header img {
 			position: absolute;
@@ -110,6 +151,7 @@ li.w3-widget {
 			margin: 0;
 			line-height: 1.3;
 			color: #999;
+			color: rgba(0,0,0,0.4);
 		}
 		li.w3-widget .w3-widget-header .w3-widget-edit {
 			position: absolute;
@@ -122,15 +164,18 @@ li.w3-widget {
 			cursor: pointer;
 		}
 		li.w3-widget.editing .w3-widget-header {
-			background: #222;
+			background: #1074a2;
 			color: #fff;
 		}
+			li.w3-widget.editing .w3-widget-header p {
+				color: rgba(255,255,255,0.4);
+			}
 		li.w3-widget.editing .w3-widget-header .w3-widget-edit {
 			background: rgba(0,0,0,0.5);
 			border-left: 1px solid rgba(0,0,0,0.04);
 		}
 	li.w3-widget .w3-widget-settings {
-		padding: 10px;
+		padding: 15px 20px;
 		display: none;
 		background: rgba(0,0,0,0.02);
 		box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);

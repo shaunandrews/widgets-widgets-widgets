@@ -22,7 +22,10 @@ function w3_new_widgets() {
 ?>
 	<ol class="w3-tabs">
 		<?php $i = 0; foreach ( $wp_registered_sidebars as $sidebar ) : ?>
-		<li class="w3-tab<?php if ( $i == 0 ) echo ' active'; ?>" data-sidebar="<?php echo $sidebar['id']; ?>"><?php echo $sidebar['name']; ?></li>
+			<li class="w3-tab<?php if ( $i == 0 ) echo ' active'; ?>" data-sidebar="<?php echo $sidebar['id']; ?>">
+				<?php echo $sidebar['name']; ?>
+				<span class="w3-widget-count"><?php echo w3_count_sidebar_widgets( $sidebar['id'] ); ?><span>
+			</li>
 		<?php $i++; endforeach; ?>
 	</ol>
 
@@ -41,7 +44,7 @@ function w3_new_widgets() {
 			</div>
 			<div class="w3-sidebar-widgets">
 				<ol class="w3-widgets ui-sortables">
-				<?php w3_list_widget_controls( $sidebar ); // Show the control forms for each of the widgets in this sidebar ?>
+				<?php wp_list_widget_controls( $sidebar ); // Show the control forms for each of the widgets in this sidebar ?>
 				</ol>
 			</div>
 		</li>
@@ -181,7 +184,8 @@ function w3_new_widgets() {
 -->
 	</ol>
 
-	<div class="w3-available-widgets widgets-sortables ui-sortable">
+	<ul class="w3-available-widgets widgets-sortables ui-sortable">
+		<li class="w3-section-header">Available Widgets</li>
 		<?php wp_list_widgets(); ?>
 <!-- My best hopes...
 		<ol class="w3-recent-widgets">
@@ -242,7 +246,7 @@ function w3_new_widgets() {
 		</ol>
 		<a href="#" class="button">View All Widgets</a>
 -->
-	</div>
+	</ul>
 
 	<script type="text/javascript">
 		(function($) {
@@ -268,19 +272,27 @@ function w3_new_widgets() {
 			});
 		})(jQuery);
 	</script>
-
-	<hr style="height: 50px; background: rgba(0,0,0,0.1); clear: both;">
 <?php
 	//exit();
 }
 
 /**
- * This is basically w3_list_widget_controls() from wp-admin/includes/widgets.php
- * but without the description, which isn't needed in this context.
+ * Show the widgets and their settings for a sidebar.
+ * Used in the admin widget config screen.
+ *
+ * @since 2.5.0
+ *
+ * @param string $sidebar id slug of the sidebar
  */
-function w3_list_widget_controls( $sidebar ) {
+function wp_list_widget_controls( $sidebar ) {
 	add_filter( 'dynamic_sidebar_params', 'wp_list_widget_controls_dynamic_sidebar' );
 	dynamic_sidebar( $sidebar );
+}
+
+function w3_count_sidebar_widgets( $sidebar_id ) {
+	global $wp_registered_sidebars, $wp_registered_widgets;
+	$sidebars_widgets = wp_get_sidebars_widgets();
+	return count( $sidebars_widgets[$sidebar_id] );
 }
 
 /**
@@ -379,10 +391,6 @@ function wp_widget_control( $sidebar_args ) {
 					<span class="spinner"></span>
 				</div>
 			</form>
-		</div>
-
-		<div class="widget-description">
-			<?php echo ( $widget_description = wp_widget_description($widget_id) ) ? "$widget_description\n" : "$widget_title\n"; ?>
 		</div>
 	</li>
 	<?php
