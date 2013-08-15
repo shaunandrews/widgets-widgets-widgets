@@ -10,6 +10,8 @@ ol.w3-tabs {
 	float: left;
 	list-style: none;
 	margin: 0;
+	height: 80vh;
+	overflow: auto;
 }
 	ol.w3-tabs li {
 		padding: 10px 15px;
@@ -17,6 +19,11 @@ ol.w3-tabs {
 		cursor: pointer;
 		background: #ddd;
 		color: #444;
+		border-bottom: 1px solid #e6e6e6;
+	}
+	.widget-title {
+		display: inline-block;
+		width: 85%;
 	}
 	ol.w3-tabs li:hover {
 		background: #ddd;
