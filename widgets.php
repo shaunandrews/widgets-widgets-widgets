@@ -47,7 +47,7 @@ function w3_new_widgets() {
 	<ol class="w3-tabs">
 		<?php $i = 0; foreach ( $wp_registered_sidebars as $sidebar ) : ?>
 			<li class="w3-tab<?php if ( $i == 0 ) echo ' active'; ?>" data-sidebar="<?php echo $sidebar['id']; ?>">
-				<?php echo $sidebar['name']; ?>
+				<?php echo '<span class="widget-title">'. $sidebar['name'] .'</span>' ?>
 				<span class="w3-widget-count"><?php echo w3_count_sidebar_widgets( $sidebar['id'] ); ?><span>
 			</li>
 		<?php $i++; endforeach; ?>
