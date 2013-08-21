@@ -1,10 +1,33 @@
-/* Out with the old... */
-.widget-liquid-left,
-.widget-liquid-right {
-	display: none;
+.w3-prototype {
+	background: #efefef;
+}
+.w3-prototype:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
 }
 
-/* ...in with the new! */
+/* Drag, Drop, Sort */
+.ui-sortable-helper,
+.ui-draggable-dragging {
+	background: #fff;
+	border-radius: 3px;
+	border: 1px solid #eee;
+	box-shadow: 0 1px 3px 1px rgba(0,0,0,0.05);
+	opacity: 0.9;
+}
+.ui-sortable-placeholder {
+	border: 1px dotted #1074a2 !important;
+	visibility: visible !important;
+	opacity: 0.6;
+	border-radius: 3px;
+	margin: 3px !important;
+	display: block;
+}
+
 ol.w3-tabs {
 	width: 20%;
 	float: left;
@@ -13,7 +36,18 @@ ol.w3-tabs {
 	height: 80vh;
 	overflow: auto;
 }
-	ol.w3-tabs li {
+	.tab-header {
+		padding: 10px 15px;
+	}
+		.tab-header h4 {
+			margin: 0 0 5px 0;
+		}
+		.tab-header p {
+			margin: 0;
+			line-height: 1.1;
+			opacity: 0.6;
+		}
+	ol.w3-tabs .w3-tab {
 		padding: 10px 15px;
 		margin-bottom: 0;
 		cursor: pointer;
@@ -25,11 +59,11 @@ ol.w3-tabs {
 		display: inline-block;
 		width: 85%;
 	}
-	ol.w3-tabs li:hover {
+	ol.w3-tabs .w3-tab:hover {
 		background: #ddd;
 		color: #1074a2;
 	}
-	ol.w3-tabs li.active {
+	ol.w3-tabs .w3-tab.active {
 		background: #fff;
 		color: #1074a2;
 	}
@@ -99,7 +133,7 @@ ul.w3-available-widgets {
 	margin: 0;
 	background: rgba(255,255,255,0.4);
 	height: 80vh;
-	overflow-y: auto;
+	//overflow-y: auto;
 	position: relative;
 }
 	ul.w3-available-widgets .w3-section-header {

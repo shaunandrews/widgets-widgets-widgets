@@ -2,8 +2,8 @@
 /*
 Plugin Name: Widgets, Widgets, Widgets
 Plugin URI: http://shaunandrews.com/wordpress/widgets-widgets-widgets/
-Description: Rethinking Widgets in WordPress
-Version: 0.1
+Description: A tabbed prototype for managing widgets.
+Version: 0.2
 Author: Shaun Andrews
 Author URI: http://automattic.com
 License: GPLv2 or later
@@ -15,7 +15,18 @@ add_action( 'admin_print_styles', 'w3_add_style' );
 function w3_add_style() {
 	if ( get_current_screen()->id != 'appearance_page_w3_widgets' )
 		return;
-	wp_enqueue_style( 'widgets-widgets-widgets', plugins_url( 'style.css', __FILE__ ), array(), '20111209' );
+	wp_enqueue_style( 'widgets-widgets-widgets', plugins_url( 'style.css', __FILE__ ) );
+}
+
+add_action( 'admin_enqueue_scripts', 'w3_add_scripts' );
+function w3_add_scripts() {
+	if ( get_current_screen()->id != 'appearance_page_w3_widgets' )
+		return;
+	wp_enqueue_script( 'jquery-ui-core' );
+	wp_enqueue_script( 'jquery-ui-draggable' );
+	wp_enqueue_script( 'jquery-ui-droppable' );
+	wp_enqueue_script( 'jquery-ui-sortable' );
+	wp_enqueue_script( 'widgets-widgets-widgets', plugins_url( 'scripts.js', __FILE__ ), array( 'jquery' ) );
 }
 
 add_action( 'admin_menu', 'w3_settings_page' );
@@ -25,26 +36,26 @@ function w3_settings_page() {
 }
 
 function w3_widgets_replace_core() {
-
 	/** WordPress (replaced by us) Administration Widgets API */
 	require_once( 'core-widgets.php' );
 
 	if ( ! current_user_can('edit_theme_options') )
 		wp_die( __( 'Cheatin&#8217; uh?' ));
 
-	echo '<div class="wrap">';
+	echo '<div class="wrap w3-prototype">';
 	screen_icon();
 	echo '<h2>'. __( 'Widgets' ) .'</h2>';
 	w3_new_widgets();
 	echo '</div><!-- .wrap -->';
-
 }
 
-// add_action( 'widgets_admin_page', 'w3_new_widgets' );
 function w3_new_widgets() {
-	global $wp_registered_sidebars;
-?>
+	global $wp_registered_sidebars; ?>
 	<ol class="w3-tabs">
+		<li class="tab-header">
+			<h4>Widget Areas</h4>
+			<p>Your theme, <?php echo wp_get_theme(); ?>, offers <?php echo count( $wp_registered_sidebars ); ?> widget areas.</p>
+		</li>
 		<?php $i = 0; foreach ( $wp_registered_sidebars as $sidebar ) : ?>
 			<li class="w3-tab<?php if ( $i == 0 ) echo ' active'; ?>" data-sidebar="<?php echo $sidebar['id']; ?>">
 				<?php echo '<span class="widget-title">'. $sidebar['name'] .'</span>' ?>
@@ -55,11 +66,11 @@ function w3_new_widgets() {
 
 
 	<ol class="w3-sidebars">
-	<?php
-		$i = 0;
-		foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
-			if ( false !== strpos( $registered_sidebar['class'], 'inactive-sidebar' ) || 'orphaned_widgets' == substr( $sidebar, 0, 16 ) )
-			continue;
+		<?php
+			$i = 0;
+			foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
+				if ( false !== strpos( $registered_sidebar['class'], 'inactive-sidebar' ) || 'orphaned_widgets' == substr( $sidebar, 0, 16 ) )
+				continue;
 		?>
 		<li class="w3-sidebar<?php if ( $i == 0 ) echo ' active'; ?>" id="sb-<?php echo $registered_sidebar['id']; ?>">
 			<div class="w3-sidebar-header">
@@ -67,7 +78,7 @@ function w3_new_widgets() {
 				<p><?php echo $registered_sidebar['description']; ?></p>
 			</div>
 			<div class="w3-sidebar-widgets">
-				<ol class="w3-widgets ui-sortables">
+				<ol class="w3-widgets">
 				<?php wp_list_widget_controls( $sidebar ); // Show the control forms for each of the widgets in this sidebar ?>
 				</ol>
 			</div>
@@ -208,7 +219,7 @@ function w3_new_widgets() {
 -->
 	</ol>
 
-	<ul class="w3-available-widgets widgets-sortables ui-sortable">
+	<ul class="w3-available-widgets">
 		<li class="w3-section-header">Available Widgets</li>
 		<?php wp_list_widgets(); ?>
 <!-- My best hopes...
@@ -271,31 +282,6 @@ function w3_new_widgets() {
 		<a href="#" class="button">View All Widgets</a>
 -->
 	</ul>
-
-	<script type="text/javascript">
-		(function($) {
-			$( '.w3-tab' ).click( function() {
-				$( '.w3-tabs .active' ).removeClass( 'active' );
-				$( this ).toggleClass( 'active' );
-				var sidebar = $( this ).data( 'sidebar' );
-
-				$( '.w3-sidebars .active' ).removeClass( 'active' );
-				$( '.w3-sidebars #sb-' + sidebar ).addClass( 'active' );
-			});
-
-			$( '.w3-widget-edit' ).click( function() {
-				$( this ).parent().parent().toggleClass( 'editing' );
-				$( this ).parent().next().slideToggle( 'fast' );
-
-				if ( $( this ).parent().parent().hasClass( 'editing' ) ) {
-					$( this ).html( 'Cancel' );
-				}
-				else {
-					$( this ).html( 'Edit' );
-				}
-			});
-		})(jQuery);
-	</script>
 <?php
 	//exit();
 }
