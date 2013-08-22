@@ -7,6 +7,9 @@ var w3Widgets;
 				helper: 'clone',
 				appendTo: 'body',
 				connectToSortable: '.w3-sidebar-widgets .w3-widgets',
+				drag: function( event, ui ) {
+					$( '.ui-sortable-placeholder' ).html( 'Drop here...' );
+				}
 			});
 
 			$( '.w3-sidebar-widgets .w3-widgets' ).droppable({
@@ -15,13 +18,18 @@ var w3Widgets;
 
 			$( '.w3-sidebars' ).droppable({
 				drop: function( event, ui ) {
+					$( '.w3-widget-edit' ).unbind();
+					$( '.w3-tab' ).unbind();
 					w3Widgets.init();
 				}
 			});	
 
 			$( '.w3-sidebar-widgets .w3-widgets' ).sortable({
 				handle: '.w3-widget-header',
-				revert: true
+				revert: true,
+				sort: function( event, ui ) {
+					$( '.ui-sortable-placeholder' ).html( 'Move here...' );
+				}
 			});
 
 			$( '.w3-tab' ).click( function() {

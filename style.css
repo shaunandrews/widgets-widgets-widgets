@@ -1,6 +1,4 @@
-.w3-prototype {
-	background: #efefef;
-}
+.w3-prototype {}
 .w3-prototype:after {
      visibility: hidden;
      display: block;
@@ -20,12 +18,17 @@
 	opacity: 0.9;
 }
 .ui-sortable-placeholder {
-	border: 1px dotted #1074a2 !important;
+	background: rgba(0,0,0,0.05);
 	visibility: visible !important;
 	opacity: 0.6;
-	border-radius: 3px;
-	margin: 3px !important;
+	box-shadow: inset 0 1px 4px rgba(0,0,0,0.5);
 	display: block;
+	text-align: left;
+	text-indent: 20px;
+	line-height: 60px;
+	font-weight: bold;
+	color: rgba(0,0,0,0.6);
+	text-shadow: 0 1px 0 rgba(255,255,255,0.3);
 }
 
 ol.w3-tabs {
@@ -119,12 +122,21 @@ li.w3-sidebar.active {
 		line-height: 1.4;
 		color: #666;
 	}
-
-.w3-sidebar-footer {
-	padding: 10px;
-	text-align: center;
-}
-	.w3-sidebar-footer .button {}
+.w3-sidebar-widgets {}
+	.w3-sidebar-widgets .w3-widgets {
+		min-height: 60px;
+		padding-bottom: 60px;
+	}
+	.w3-sidebar-widgets .empty-sidebar {
+	}
+	.w3-sidebar-widgets .blank {
+		margin: 10px;
+		border: 3px dashed #ccc;
+		border-radius: 3px;
+		padding: 10px;
+		text-align: center;
+		color: #aaa;
+	}
 
 ul.w3-available-widgets {
 	width: 28%;
