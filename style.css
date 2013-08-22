@@ -133,7 +133,7 @@ ul.w3-available-widgets {
 	margin: 0;
 	background: rgba(255,255,255,0.4);
 	height: 80vh;
-	//overflow-y: auto;
+	overflow-y: auto;
 	position: relative;
 }
 	ul.w3-available-widgets .w3-section-header {
@@ -157,6 +157,7 @@ ol.w3-widgets {
 li.w3-widget {
 	margin: 0;
 	border-bottom: 1px solid #eee;
+	list-style: none;
 }
 li.w3-widget:last-child {
 	border-bottom: none;
