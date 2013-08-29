@@ -26,6 +26,7 @@ function w3_add_scripts() {
 	wp_enqueue_script( 'jquery-ui-draggable' );
 	wp_enqueue_script( 'jquery-ui-droppable' );
 	wp_enqueue_script( 'jquery-ui-sortable' );
+	wp_enqueue_script( 'jquery-effects-highlight' );
 	wp_enqueue_script( 'widgets-widgets-widgets', plugins_url( 'scripts.js', __FILE__ ), array( 'jquery' ) );
 }
 
@@ -43,9 +44,12 @@ function w3_widgets_replace_core() {
 		wp_die( __( 'Cheatin&#8217; uh?' ));
 
 	echo '<div class="wrap w3-prototype">';
-	screen_icon();
-	echo '<h2>'. __( 'Widgets' ) .'</h2>';
-	w3_new_widgets();
+	screen_icon();?>
+	<h2 class="nav-tab-wrapper">
+		<a href="#" class="nav-tab nav-tab-active">Widgets</a>
+		<a href="#" class="nav-tab">Locations</a>
+	</h2>
+	<?php w3_new_widgets();
 	echo '</div><!-- .wrap -->';
 }
 
@@ -55,18 +59,35 @@ function w3_new_widgets() {
 	$theme_image = $current_theme->get_screenshot();
 	?>
 	<ol class="w3-tabs">
+		<!--
 		<li class="tab-header">
 			<h4>Widget Areas</h4>
 			<img src="<?php echo $theme_image; ?>" height="50">
-			<p><?php echo $current_theme; ?> offers <?php echo count( $wp_registered_sidebars ); ?> widget areas.</p>
-			<p><?php echo count( get_page_templates() ); ?> templates</p>
+			<p><?php echo $current_theme; ?></p>
 		</li>
+		-->
+		<li class="w3-template">Default Template</li>
+		<li class="w3-tab active" data-sidebar="sidebar-1" id="tab-sidebar-1">
+			<span class="widget-title">Main Sidebar</span>
+			<span class="w3-widget-count">0</span>
+		</li>
+		<li class="w3-template">Front Page Template</li>
+		<li class="w3-tab" data-sidebar="sidebar-2" id="tab-sidebar-2">
+			<span class="widget-title">Left Side</span>
+			<span class="w3-widget-count">0</span>
+		</li>
+		<li class="w3-tab" data-sidebar="sidebar-3" id="tab-sidebar-3">
+			<span class="widget-title">Right Side</span>
+			<span class="w3-widget-count">0</span>
+		</li>
+<!--
 		<?php $i = 0; foreach ( $wp_registered_sidebars as $sidebar ) : ?>
 			<li class="w3-tab<?php if ( $i == 0 ) echo ' active'; ?>" data-sidebar="<?php echo $sidebar['id']; ?>">
 				<span class="widget-title"><?php echo str_replace( 'Widget Area', '', $sidebar['name'] ); ?></span>
 				<span class="w3-widget-count"><?php echo w3_count_sidebar_widgets( $sidebar['id'] ); ?><span>
 			</li>
 		<?php $i++; endforeach; ?>
+-->
 	</ol>
 
 	<ol class="w3-sidebars">
@@ -76,7 +97,7 @@ function w3_new_widgets() {
 				if ( false !== strpos( $registered_sidebar['class'], 'inactive-sidebar' ) || 'orphaned_widgets' == substr( $sidebar, 0, 16 ) )
 				continue;
 		?>
-		<li class="w3-sidebar<?php if ( $i == 0 ) echo ' active'; ?>" id="sb-<?php echo $registered_sidebar['id']; ?>">
+		<li class="w3-sidebar<?php if ( $i == 0 ) echo ' active'; ?>" data-sidebar="<?php echo $registered_sidebar['id']; ?>" id="<?php echo $registered_sidebar['id']; ?>">
 			<div class="w3-sidebar-header">
 				<h2><?php echo str_replace( 'Widget Area', '', $registered_sidebar['name'] ); ?></h2>
 				<p><?php echo $registered_sidebar['description']; ?></p>
@@ -85,211 +106,44 @@ function w3_new_widgets() {
 				<ol class="w3-widgets<?php if ( w3_count_sidebar_widgets( $registered_sidebar['id'] ) == 0 ) echo ' empty-sidebar'; ?>">
 					<?php
 						if ( w3_count_sidebar_widgets( $registered_sidebar['id'] ) == 0 )
-							echo '<li class="blank">Drag a widget from the right and drop it here to place it.</li>';
+							echo '<li class="w3-blank">Widgets let you add little bits of content throughout your site. Click the button below to add a new widget.</li>';
 						?>
 				<?php wp_list_widget_controls( $sidebar ); // Show the control forms for each of the widgets in this sidebar ?>
 				</ol>
+			</div>
+			<div class="w3-sidebar-footer">
+				<button class="button add-a-widget">Add a Widget</button>
 			</div>
 		</li>
 		<?php
 			$i++;
 		} ?>
-
-		<!--
-			<li class="w3-sidebar" id="sb-home-left">
-				<div class="w3-sidebar-header">
-					<h2>Home Left</h2>
-					<p>Appears on the bottom-left of the homepage.</p>
-				</div>
-				<div class="w3-sidebar-widgets">
-					<ol class="w3-widgets">
-						<li class="w3-widget">
-
-						</li>
-					</ol>
-				</div>
-				<div class="w3-sidebar-footer">
-					<a class="button" href="#">Add a Widget</a>
-				</div>
-			</li>
-			<li class="w3-sidebar active" id="sb-home-right">
-				<div class="w3-sidebar-header">
-					<h2>Home Right</h2>
-					<p>Appears on the bottom-right of the homepage.</p>
-				</div>
-				<div class="w3-sidebar-widgets">
-					<ol class="w3-widgets">
-						<li class="w3-widget">
-							<div class="w3-widget-header">
-								<h3>Select Design Work</h3>
-								<p>Custom Menu</p>
-								<span class="w3-widget-edit">Edit</span>
-							</div>
-							<div class="w3-widget-settings">
-								<fieldset>
-									<label>Title</label>
-									<input type="text" value="Select Design Work">
-								</fieldset>
-								<fieldset>
-									<label>Menu</label>
-									<select>
-										<option>Choose a menu&hellip;</option>
-										<optgroup label="Your Menus">
-											<option selected>Select Design Work</option>
-											<option>Main Menu</option>
-											<option>Some Other Menu</option>
-										</optgroup>
-										<optgroup label="Smart Menus">
-											<option>All Pages, Nested</option>
-											<option>All Pages, Flat</option>
-											<option>All Top Level Pages</option>
-										</optgroup>
-									</select>
-								</fieldset>
-								<fieldset>
-									<a href="#">Delete</a>
-									<button class="button">Save</button>
-								</fieldset>
-							</div>
-						</li>
-						<li class="w3-widget">
-							<div class="w3-widget-header">
-								<h3>Recent Comments</h3>
-								<p>No title</p>
-								<span class="w3-widget-edit">Edit</span>
-							</div>
-							<div class="w3-widget-settings">
-								<fieldset>
-									<label>Title</label>
-									<input type="text">
-								</fieldset>
-								<fieldset>
-									<label>No. of Comments</label>
-									<input type="text">
-								</fieldset>
-								<fieldset>
-									<a href="#">Delete</a>
-									<button class="button">Save</button>
-								</fieldset>
-							</div>
-						</li>
-					</ol>
-				</div>
-				<div class="w3-sidebar-footer">
-					<a class="button" href="#">Add a Widget</a>
-				</div>
-			</li>
-			<li class="w3-sidebar" id="sb-blog-side">
-				<div class="w3-sidebar-header">
-					<h2>Blog Sidebar</h2>
-					<p>Appears in the sidebar of your blog.</p>
-				</div>
-				<div class="w3-sidebar-widgets">
-					<ol class="w3-widgets">
-						<li class="w3-widget">
-						</li>
-					</ol>
-				</div>
-				<div class="w3-sidebar-footer">
-					<a class="button" href="#">Add a Widget</a>
-				</div>
-			</li>
-			<li class="w3-sidebar" id="sb-about-page">
-				<div class="w3-sidebar-header">
-					<h2>About Page</h2>
-					<p>Appears on the bottom of the about page.</p>
-				</div>
-				<div class="w3-sidebar-widgets">
-					<ol class="w3-widgets">
-						<li class="w3-widget">
-						</li>
-					</ol>
-				</div>
-				<div class="w3-sidebar-footer">
-					<a class="button" href="#">Add a Widget</a>
-				</div>
-			</li>
-			<li class="w3-sidebar" id="sb-footer">
-				<div class="w3-sidebar-header">
-					<h2>Footer</h2>
-					<p>Appears on the bottom of every page.</p>
-				</div>
-				<div class="w3-sidebar-widgets">
-					<ol class="w3-widgets">
-						<li class="w3-widget">
-						</li>
-					</ol>
-				</div>
-				<div class="w3-sidebar-footer">
-					<a class="button" href="#">Add a Widget</a>
-				</div>
-			</li>
-		-->
 	</ol>
 
-	<ul class="w3-available-widgets">
-		<li class="w3-section-header">Available Widgets</li>
-		<?php wp_list_widgets(); ?>
-		<!-- My best hopes...
-				<ol class="w3-recent-widgets">
-					<li class="w3-widget">
-						<div class="w3-widget-header">
-							<img src="http://fpoimg.com/40x40">
-							<h3>Custom Menu</h3>
-							<p>Select a menu to display.</p>
-							<span class="w3-widget-edit">Edit</span>
-						</div>
-						<div class="w3-widget-settings">
-							<fieldset>
-								<label>Title</label>
-								<input type="text" value="Select Design Work">
-							</fieldset>
-							<fieldset>
-								<label>Menu</label>
-								<select>
-									<option>Choose a menu&hellip;</option>
-									<optgroup label="Your Menus">
-										<option selected>Select Design Work</option>
-										<option>Main Menu</option>
-										<option>Some Other Menu</option>
-									</optgroup>
-									<optgroup label="Smart Menus">
-										<option>All Pages, Nested</option>
-										<option>All Pages, Flat</option>
-										<option>All Top Level Pages</option>
-									</optgroup>
-								</select>
-							</fieldset>
-							<fieldset>
-								<button class="button">Add</button>
-							</fieldset>
-						</div>
-					</li>
-					<li class="w3-widget ui-draggable">
-						<div class="w3-widget-header">
-							<img src="http://fpoimg.com/40x40">
-							<h3>Recent Comments</h3>
-							<p>Show a list of recent coments</p>
-							<span class="w3-widget-edit">Edit</span>
-						</div>
-						<div class="w3-widget-settings">
-							<fieldset>
-								<label>Title</label>
-								<input type="text">
-							</fieldset>
-							<fieldset>
-								<label>No. of Comments</label>
-								<input type="text">
-							</fieldset>
-							<fieldset>
-								<button class="button">Add</button>
-							</fieldset>
-						</div>
-					</li>
+	<div class="wp-modal">
+		<div class="wp-modal-inner">
+			<div class="wp-modal-close">Close</div>
+			<ul class="wp-modal-menu">
+				<li class="active">Available Widgets</li>
+				<li>Inactive Widgets</li>
+			</ul>
+			<div class="wp-modal-title">
+				<h1>Add a Widget</h1>
+			</div>
+			<div class="wp-modal-content">
+				<ol class="w3-available-widgets">
+					<?php wp_list_widgets(); ?>
 				</ol>
-				<a href="#" class="button">View All Widgets</a>
-		-->
-	</ul>
+				<div class="wp-modal-sidebar"></div>
+			</div>
+			<!--
+			<div class="wp-modal-toolbar">
+				<ol class="w3-selected-widgets"></ol>
+			</div>
+			-->
+		</div>
+	</div>
+	<div class="wp-modal-backdrop"></div>
 <?php
 }
 

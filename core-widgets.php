@@ -66,19 +66,7 @@ function _sort_name_callback( $a, $b ) {
  */
 function wp_list_widget_controls( $sidebar ) {
 	add_filter( 'dynamic_sidebar_params', 'wp_list_widget_controls_dynamic_sidebar' );
-
-	// echo "<div id='$sidebar' class='widgets-sortables'>\n";
-
-	// $description = wp_sidebar_description( $sidebar );
-
-	// if ( !empty( $description ) ) {
-	// 	echo "<div class='sidebar-description'>\n";
-	// 	echo "\t<p class='description'>$description</p>";
-	// 	echo "</div>\n";
-	// }
-
 	dynamic_sidebar( $sidebar );
-	// echo "</div>\n";
 }
 
 /**
@@ -181,7 +169,7 @@ function wp_widget_control( $sidebar_args ) {
 			<h3><?php echo $widget_title ?></h3>
 			<p><?php echo ( $widget_description = wp_widget_description($widget_id) ) ? "$widget_description\n" : "$widget_title\n"; ?></p>
 			<span class="w3-widget-edit">Edit</span>
-			<!--
+			<?php /*
 			<div class="widget-title-action">
 				<a class="widget-action hide-if-no-js" href="#available-widgets"></a>
 				<a class="widget-control-edit hide-if-js" href="<?php echo esc_url( add_query_arg( $query_arg ) ); ?>">
@@ -190,7 +178,7 @@ function wp_widget_control( $sidebar_args ) {
 					<span class="screen-reader-text"><?php echo $widget_title; ?></span>
 				</a>
 			</div>
-			-->
+			*/ ?>
 		</div>
 
 		<div class="w3-widget-settings">
@@ -210,12 +198,9 @@ function wp_widget_control( $sidebar_args ) {
 				<input type="hidden" name="multi_number" class="multi_number" value="<?php echo esc_attr($multi_number); ?>" />
 				<input type="hidden" name="add_new" class="add_new" value="<?php echo esc_attr($add_new); ?>" />
 
-				<div class="widget-control-actions">
-					<a class="widget-control-remove" href="#remove"><?php _e('Delete'); ?></a> |
-					<a class="widget-control-close" href="#close"><?php _e('Close'); ?></a>
-
-					<?php submit_button( __( 'Save' ), 'button-primary widget-control-save right', 'savewidget', false, array( 'id' => 'widget-' . esc_attr( $id_format ) . '-savewidget' ) ); ?>
-
+				<div class="w3-widget-actions">
+					<?php submit_button( __( 'Save' ), 'button-primary w3-widget-save', 'savewidget', false, array( 'id' => 'widget-' . esc_attr( $id_format ) . '-savewidget' ) ); ?>
+					<a class="w3-widget-remove" href="#remove"><?php _e('Delete'); ?></a>
 					<span class="spinner"></span>
 				</div>
 			</form>

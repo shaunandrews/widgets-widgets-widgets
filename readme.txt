@@ -1,11 +1,11 @@
 === Widgets Widgets Widgets ===
-Contributors: shaunandrews
+Contributors: shaunandrews, jtsternberg
 Tags: widgets
 Requires at least: 3.6 + MP6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Stable tag: trunk
-Version: 0.2
+Version: 0.3
 
 == Description ==
 
