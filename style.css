@@ -89,6 +89,7 @@ li.w3-sidebar {
 	background: #fff;
 	margin: 0;
 	display: none;
+	min-height: 80vh;
 }
 li.w3-sidebar.active {
 	display: block;
@@ -222,7 +223,7 @@ li.w3-sidebar.active {
 
 /* WP Modal */
 .wp-modal {
-	/* display: none; */
+	display: none;
 	position: fixed;
 	top: 30px;
 	left: 30px;
@@ -328,7 +329,7 @@ li.w3-sidebar.active {
 	}
 
 .wp-modal-backdrop {
-	/* display: none; */
+	display: none;
 	position: fixed;
 	top: 0;
 	left: 0;

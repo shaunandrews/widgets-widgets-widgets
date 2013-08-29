@@ -41,9 +41,6 @@ var w3Widgets;
 
 				w3Widgets.closeModal();
 				w3Widgets.countWidgets();
-
-				$( '.w3-available-widgets .selected' ).removeClass('selected');
-				$( '.wp-modal-sidebar' ).empty();
 			});
 
 			$( '.w3-tab' ).click( function() {
@@ -85,6 +82,8 @@ var w3Widgets;
 		closeModal: function() {
 			$( '.wp-modal-backdrop' ).fadeOut( 'fast' );
 			$( '.wp-modal' ).fadeOut( 'fast' );
+			$( '.w3-available-widgets .selected' ).removeClass('selected');
+			$( '.wp-modal-sidebar' ).empty();
 		},
 
 		init2 : function() {

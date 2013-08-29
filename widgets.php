@@ -66,6 +66,7 @@ function w3_new_widgets() {
 			<p><?php echo $current_theme; ?></p>
 		</li>
 		-->
+		<?php /* 2012 Templates
 		<li class="w3-template">Default Template</li>
 		<li class="w3-tab active" data-sidebar="sidebar-1" id="tab-sidebar-1">
 			<span class="widget-title">Main Sidebar</span>
@@ -80,14 +81,15 @@ function w3_new_widgets() {
 			<span class="widget-title">Right Side</span>
 			<span class="w3-widget-count">0</span>
 		</li>
-<!--
+		*/ ?>
+
 		<?php $i = 0; foreach ( $wp_registered_sidebars as $sidebar ) : ?>
 			<li class="w3-tab<?php if ( $i == 0 ) echo ' active'; ?>" data-sidebar="<?php echo $sidebar['id']; ?>">
 				<span class="widget-title"><?php echo str_replace( 'Widget Area', '', $sidebar['name'] ); ?></span>
 				<span class="w3-widget-count"><?php echo w3_count_sidebar_widgets( $sidebar['id'] ); ?><span>
 			</li>
 		<?php $i++; endforeach; ?>
--->
+
 	</ol>
 
 	<ol class="w3-sidebars">
