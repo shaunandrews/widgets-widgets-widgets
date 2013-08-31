@@ -86,8 +86,8 @@ function wp_list_widget_controls_dynamic_sidebar( $params ) {
 	$id = isset($params[0]['_temp_id']) ? $params[0]['_temp_id'] : $widget_id;
 	$hidden = isset($params[0]['_hide']) ? ' style="display:none;"' : '';
 
-	$params[0]['before_widget'] = "<div id='widget-{$i}_{$id}' class='widget'$hidden>";
-	$params[0]['after_widget'] = "</div>";
+	$params[0]['before_widget'] = "<li id='widget-{$i}_{$id}' class='w3-widget'$hidden>";
+	$params[0]['after_widget'] = "</li>";
 	$params[0]['before_title'] = "%BEG_OF_TITLE%"; // deprecated
 	$params[0]['after_title'] = "%END_OF_TITLE%"; // deprecated
 	if ( is_callable( $wp_registered_widgets[$widget_id]['callback'] ) ) {
@@ -163,8 +163,7 @@ function wp_widget_control( $sidebar_args ) {
 	$widget_title = esc_html( strip_tags( $sidebar_args['widget_name'] ) );
 	$has_form = 'noform';
 
-	//echo $sidebar_args['before_widget']; ?>
-	<li class="w3-widget">
+	echo $sidebar_args['before_widget']; ?>
 		<div class="w3-widget-header">
 			<h3><?php echo $widget_title ?></h3>
 			<p><?php echo ( $widget_description = wp_widget_description($widget_id) ) ? "$widget_description\n" : "$widget_title\n"; ?></p>
@@ -183,12 +182,14 @@ function wp_widget_control( $sidebar_args ) {
 
 		<div class="w3-widget-settings">
 			<form action="" method="post">
+				<div class="widget-content">
 				<?php
 					if ( isset($control['callback']) )
 						$has_form = call_user_func_array( $control['callback'], $control['params'] );
 					else
 						echo "\t\t<p>" . __('There are no options for this widget.') . "</p>\n";
 				?>
+				</div>
 
 				<input type="hidden" name="widget-id" class="widget-id" value="<?php echo esc_attr($id_format); ?>" />
 				<input type="hidden" name="id_base" class="id_base" value="<?php echo esc_attr($id_base); ?>" />
@@ -205,8 +206,7 @@ function wp_widget_control( $sidebar_args ) {
 				</div>
 			</form>
 		</div>
-	</li>
 	<?php
-	//echo $sidebar_args['after_widget'];
+	echo $sidebar_args['after_widget'];
 	return $sidebar_args;
 }

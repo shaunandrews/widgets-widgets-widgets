@@ -146,6 +146,10 @@ function w3_new_widgets() {
 		</div>
 	</div>
 	<div class="wp-modal-backdrop"></div>
+
+	<form action="" method="post">
+	<?php wp_nonce_field( 'save-sidebar-widgets', '_wpnonce_widgets', false ); ?>
+	</form>
 <?php
 }
 
