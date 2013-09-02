@@ -45,10 +45,7 @@ function w3_widgets_replace_core() {
 
 	echo '<div class="wrap w3-prototype">';
 	screen_icon();?>
-	<h2 class="nav-tab-wrapper">
-		<a href="#" class="nav-tab nav-tab-active">Widgets</a>
-		<a href="#" class="nav-tab">Locations</a>
-	</h2>
+	<h2>Widgets</h2>
 	<?php w3_new_widgets();
 	echo '</div><!-- .wrap -->';
 }

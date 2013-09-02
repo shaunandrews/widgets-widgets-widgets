@@ -13,6 +13,7 @@ var w3Widgets;
 				},
 				stop: function( event, ui) {
 					var sb = $(ui.item).attr('id');
+					console.log(sb);
 					w3Widgets.saveOrder( sb );
 				}
 			});
@@ -30,22 +31,46 @@ var w3Widgets;
 				var widget = $( this ),
 					widgetSettings = $( '.wp-modal-sidebar' );
 				
+				console.log('ln30');
+
 				$( '.w3-available-widgets .selected' ).removeClass('selected');
 				widget.addClass( 'selected' );
 				widgetSettings.html('').html( widget.html() );
+				widgetSettings.data( 'widget-id', widget.attr('id') );
 			});
 
 			$( '.wp-modal-sidebar' ).on( 'click', '.w3-widget-save', function(event) {
 				event.preventDefault();
-				var widget = $('.wp-modal-sidebar').html(),
-					sidebar = $( '.w3-sidebar:visible' );
+				var widget = $('.wp-modal-sidebar'),
+					widget_id = widget.data('widget-id'),
+					n = widget.find('input.multi_number').val(),
+					new_widget_id = widget_id.replace('__i__', n),
+					sidebar = $( '.w3-sidebar:visible' ),
+					add = widget.find('input.add_new').val();
 
-				sidebar.find( '.w3-widgets' ).append( '<li class="w3-widget just-added">' + widget + '</li>' );
+				console.log( add, n, widget_id, new_widget_id );
+
+				if ( 'multi' == add ) {
+					widget.html( widget.html().replace(/<[^<>]+>/g, function(m){ return m.replace(/__i__|%i%/g, n); }) );
+					widget.data( 'widget-id', new_widget_id );
+					n++;
+					$('#' + widget_id).find('input.multi_number').val(n);
+				} else if ( 'single' == add ) {
+					console.log( 'Single doesnt work yet.' );
+				}
+
+				sidebar.find( '.w3-widgets' ).append( '<li id="' + new_widget_id + '" class="w3-widget just-added">' + widget.html() + '</li>' );
 				sidebar.find( '.just-added' ).effect("highlight", {}, 3000).removeClass( 'just-added' );
 				sidebar.find( '.w3-blank' ).remove();
 
+				var new_widget = $( '#' + new_widget_id );
+				new_widget.find( 'input.add_new' ).val('');
+
 				w3Widgets.closeModal();
 				w3Widgets.countWidgets();
+				w3Widgets.save( new_widget, 0, 0, 1 );
+
+				w3Widgets.saveOrder( new_widget_id );
 			});
 
 			$( '.w3-tab' ).click( function() {
