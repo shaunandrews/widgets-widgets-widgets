@@ -3,6 +3,7 @@ var w3Widgets;
 
 	w3Widgets = {
 		init: function() {
+			// Reorder Widgets in a Sidebar
 			$( '.w3-sidebar' ).sortable({
 				handle: '.w3-widget-header',
 				revert: true,
@@ -18,61 +19,8 @@ var w3Widgets;
 				}
 			});
 
-			$( '.add-a-widget' ).on( 'click', function() {
-				$( '.wp-modal-backdrop' ).fadeIn( 'fast' );
-				$( '.wp-modal' ).fadeIn( 'fast' );
-			});
 
-			$( '.wp-modal-close, .wp-modal-backdrop' ).on( 'click', function() {
-				w3Widgets.closeModal();
-			});
-
-			$( '.w3-available-widgets .w3-widget' ).on( 'click', function() {
-				var widget = $( this ),
-					widgetSettings = $( '.wp-modal-sidebar' );
-				
-				console.log('ln30');
-
-				$( '.w3-available-widgets .selected' ).removeClass('selected');
-				widget.addClass( 'selected' );
-				widgetSettings.html('').html( widget.html() );
-				widgetSettings.data( 'widget-id', widget.attr('id') );
-			});
-
-			$( '.wp-modal-sidebar' ).on( 'click', '.w3-widget-save', function(event) {
-				event.preventDefault();
-				var widget = $('.wp-modal-sidebar'),
-					widget_id = widget.data('widget-id'),
-					n = widget.find('input.multi_number').val(),
-					new_widget_id = widget_id.replace('__i__', n),
-					sidebar = $( '.w3-sidebar:visible' ),
-					add = widget.find('input.add_new').val();
-
-				console.log( add, n, widget_id, new_widget_id );
-
-				if ( 'multi' == add ) {
-					widget.html( widget.html().replace(/<[^<>]+>/g, function(m){ return m.replace(/__i__|%i%/g, n); }) );
-					widget.data( 'widget-id', new_widget_id );
-					n++;
-					$('#' + widget_id).find('input.multi_number').val(n);
-				} else if ( 'single' == add ) {
-					console.log( 'Single doesnt work yet.' );
-				}
-
-				sidebar.find( '.w3-widgets' ).append( '<li id="' + new_widget_id + '" class="w3-widget just-added">' + widget.html() + '</li>' );
-				sidebar.find( '.just-added' ).effect("highlight", {}, 3000).removeClass( 'just-added' );
-				sidebar.find( '.w3-blank' ).remove();
-
-				var new_widget = $( '#' + new_widget_id );
-				new_widget.find( 'input.add_new' ).val('');
-
-				w3Widgets.closeModal();
-				w3Widgets.countWidgets();
-				w3Widgets.save( new_widget, 0, 0, 1 );
-
-				w3Widgets.saveOrder( new_widget_id );
-			});
-
+			// Switch to View Individual Sidebars
 			$( '.w3-tab' ).click( function() {
 				$( '.w3-tabs .active' ).removeClass( 'active' );
 				$( this ).toggleClass( 'active' );
@@ -82,7 +30,13 @@ var w3Widgets;
 				$( '.w3-sidebars #' + sidebar ).addClass( 'active' );
 			});
 
-			$( '.w3-widgets' ).on( 'click', '.w3-widget-edit', function() {
+
+			// Update Widget Counts
+			w3Widgets.countWidgets();
+
+
+			// Edit and Save Placed Widgets
+			$( '.w3-sidebars .w3-widgets' ).on( 'click', '.w3-widget-edit', function() {
 				var widget = $( this ).closest( '.w3-widget' );
 				widget.toggleClass( 'editing' );
 				widget.find( '.w3-widget-settings' ).slideToggle( 'fast' );
@@ -95,7 +49,7 @@ var w3Widgets;
 				}
 			});
 
-			$( '.w3-widgets' ).on( 'click', '.w3-widget-save', function(event) {
+			$( '.w3-sidebars .w3-widgets' ).on( 'click', '.w3-widget-save', function(event) {
 				event.preventDefault();
 				var widget = $( this ).closest( '.w3-widget' );
 				w3Widgets.save( widget, 0, 1, 0 );
@@ -104,7 +58,53 @@ var w3Widgets;
 				widget.find('.w3-widget-edit').html( 'Edit' );
 			});
 
-			w3Widgets.countWidgets();
+			$( '.w3-sidebars .w3-widgets' ).on( 'click', '.w3-widget-remove', function(event) {
+				event.preventDefault();
+				var widget = $( this ).closest( '.w3-widget' );
+				widget.slideUp('fast');
+				setTimeout( function() {
+					widget.remove();
+				}, 1000);
+				w3Widgets.save( widget, 1, 1, 0 );
+			});
+
+
+			// Available Widgets on Right
+			$( '#w3-available-widgets .w3-widget' ).on( 'click', function() {
+				var widget = $(this),
+					widget_id = widget.attr( 'id' ),
+					add = widget.find('input.add_new').val(),
+					sidebar = $( '.w3-sidebar:visible' ),
+					n = widget.find('input.multi_number').val(),
+					new_widget_id = widget_id.replace('__i__', n);
+
+				if ( 'multi' == add ) {
+					widget.html(
+						widget.html().replace(/<[^<>]+>/g, function(m) {
+							return m.replace(/__i__|%i%/g, n);
+						})
+					);
+					n++;
+					$('#' + widget_id).find('input.multi_number').val(n);
+				} else if ( 'single' == add ) {
+					console.log( 'Single doesnt work yet.' );
+				}
+
+				var new_widget = widget.clone();
+				new_widget.attr( 'id', new_widget_id ).addClass( 'just-added' );
+				new_widget.appendTo( sidebar.find( '.w3-widgets' ) );
+				new_widget.effect("highlight", {}, 3000).removeClass( 'just-added' );
+				new_widget.find( '.w3-widget-edit' ).trigger( 'click' );
+
+				w3Widgets.save( new_widget, 0, 0, 1 );
+				w3Widgets.saveOrder( new_widget_id );
+			});
+
+
+			// Live Filter of Available Widgets
+			$('#w3-available-widgets .w3-widgets').liveFilter('#w3-live-filter-widgets', 'li', {
+				filterChildSelector: 'h3'
+			});
 		},
 
 		countWidgets: function() {
@@ -321,8 +321,12 @@ var w3Widgets;
 		},
 
 		save : function(widget, del, animate, order) {
-			var sb = widget.closest('.w3-sidebar').attr('id'), data = widget.find('form').serialize(), a;
-			widget = $(widget);
+			console.log(widget);
+			var sb = widget.closest('.w3-sidebar').attr('id'),
+				data = widget.find('form').serialize(),
+				a;
+
+			console.log( sb );
 			//$('.spinner', widget).show();
 
 			a = {
