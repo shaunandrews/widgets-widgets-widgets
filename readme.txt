@@ -5,11 +5,11 @@ Requires at least: 3.6 + MP6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Stable tag: trunk
-Version: 0.4
+Version: 0.5
 
 == Description ==
 
-Rethinking how widgets look and work in WordPress. This plugin aims to, one day, be a part of WordPress core. Right now, this is mainly a UI prototype which doesn't actually let you save your changes.
+Rethinking how widgets look and work in WordPress. This plugin aims to, one day, be a part of WordPress core.
 
 == Installation ==
 
